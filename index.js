@@ -2,22 +2,33 @@ const mineflayer = require('mineflayer');
 
 function createBot() {
     const bot = mineflayer.createBot({
-        host: 'calliope.mcserverhost.com', 
-        port: 13807,             
+        host: 'calliope.mcserverhost.com', // Base sa screenshot mo
+        port: 13807,           // Base sa server-port mo
         username: 'StayAliveBot',
-        version: '1.21.11' // <--- ILAGAY MO DITO ANG VERSION NG SERVER MO
+        version: false         // Hayaan ang bot na mag-auto-detect ng version
     });
 
     bot.on('login', () => {
-        console.log("Naka-login na ang bot!");
+        console.log("Success! Naka-pasok na ang bot sa server.");
     });
 
-    bot.on('kick', (reason) => console.log(`Kicked: ${reason}`));
-    bot.on('error', (err) => console.error(err));
+    // Para hindi mag-crash ang Render kapag nag-error
+    bot.on('error', (err) => {
+        console.log("Waiting for server to be online... (" + err.code + ")");
+    });
+
+    // Auto-reconnect kapag na-kick o nawala ang server
     bot.on('end', () => {
-        console.log("Bot disconnected. Reconnecting in 5 seconds...");
-        setTimeout(createBot, 5000);
+        console.log("Disconnected. Reconnecting in 10 seconds...");
+        setTimeout(createBot, 10000);
     });
 }
 
 createBot();
+
+// Mahalaga para sa Render: Gumawa ng dummy server para hindi "Failed" ang status
+const http = require('http');
+http.createServer((req, res) => {
+    res.write('Bot is running!');
+    res.end();
+}).listen(10000);
