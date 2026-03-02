@@ -8,9 +8,9 @@ http.createServer((req, res) => {
 
 function startBot() {
     const bot = mineflayer.createBot({
-        host: '191.96.231.21', //
-        port: 13807,           //
-        username: 'ArcticGuard', 
+        host: 'fundom.playserver.pro', //
+        port: 41059,           //
+        username: 'FunGuard', 
         version: '1.21.1'      //
     });
 
