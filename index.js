@@ -11,11 +11,11 @@ function startBot() {
         host: 'fundom.playserver.pro', //
         port: 41059,           //
         username: 'FunGuard', 
-        version: '1.21.1'      //
+        version: '1.21.11'      //
     });
 
     bot.on('spawn', () => {
-        console.log("Naka-pasok na si ArcticGuard!");
+        console.log("Naka-pasok na si FunGuard!");
         
         // Loop: Talon, Crouch, at Chat bawat 30 seconds
         setInterval(() => {
