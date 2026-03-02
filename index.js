@@ -1,31 +1,29 @@
 const mineflayer = require('mineflayer');
+const http = require('http');
 
-function createBot() {
+// 1. Dummy Server para hindi mag-fail ang Render
+http.createServer((req, res) => {
+    res.write('Bot is active!');
+    res.end();
+}).listen(10000);
+
+// 2. Minecraft Bot Configuration
+function startBot() {
     const bot = mineflayer.createBot({
-        host: 'calliope.mcserverhost.com', 
+        host: '191.96.231.21', 
         port: 13807,           
-        username: 'StayAliveBot',
-        version: '1.21.11' // Siguraduhin na 1.21.1 ito base sa logs mo
+        username: 'ArcticGuard', // Kahit anong name
+        version: '1.21.1'      // Base sa logs mo, 1.21.1 ang version mo
     });
 
-    bot.on('login', () => console.log("Bot is online sa ArcticEmpire!"));
+    bot.on('login', () => console.log("Naka-pasok na ang bot sa ArcticEmpire!"));
+    bot.on('error', (err) => console.log("Connection Error: " + err.code));
     
-    bot.on('error', (err) => {
-        console.log("Server issue: " + err.code);
-        // Huwag hayaang mag-crash ang program
-    });
-
+    // Auto-reconnect kapag na-kick
     bot.on('end', () => {
-        console.log("Disconnected. Reconnecting in 15 seconds...");
-        setTimeout(createBot, 15000);
+        console.log("Disconnected... Reconnecting in 10 seconds.");
+        setTimeout(startBot, 10000);
     });
 }
 
-createBot();
-
-// Mahalaga para sa Render (Keep-alive server)
-const http = require('http');
-http.createServer((req, res) => {
-    res.write('Bot is running!');
-    res.end();
-}).listen(10000);
+startBot();
