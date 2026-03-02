@@ -1,23 +1,24 @@
 const mineflayer = require('mineflayer');
 const http = require('http');
 
+// Render Health Check
 http.createServer((req, res) => {
-    res.write('FunGuard is active!');
+    res.write('FunGuard is active and jumping!');
     res.end();
 }).listen(10000);
 
 function startBot() {
     const bot = mineflayer.createBot({
-        host: 'fundom.playserver.pro', //
-        port: 41059,           //
+        host: 'fundom.playserver.pro', // Siguraduhing walang space o extra characters
+        port: 41059,                  // Ang bagong port mo
         username: 'FunGuard', 
-        version: '1.21.11'      //
+        version: '1.21.11' 
     });
 
     bot.on('spawn', () => {
         console.log("Naka-pasok na si FunGuard!");
         
-        // Loop: Talon, Crouch, at Chat bawat 30 seconds
+        // Anti-AFK Loop: Talon at Crouch
         setInterval(() => {
             bot.setControlState('jump', true);
             setTimeout(() => bot.setControlState('jump', false), 500);
@@ -27,13 +28,11 @@ function startBot() {
                 setTimeout(() => bot.setControlState('sneak', false), 1000);
             }, 1000);
 
-            // Chat para sa anti-hibernation ng mcserverhost
-            bot.chat("ArcticEmpire 24/7 System Active."); 
+            bot.chat("FunDom 24/7 System Active."); 
         }, 30000); 
     });
 
     bot.on('error', (err) => {
-        if (err.code === 'ECONNREFUSED') return; // Ignore if server is restarting
         console.log("Error: " + err.code);
     });
 
