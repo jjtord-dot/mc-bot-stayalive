@@ -2,7 +2,7 @@ const mineflayer = require('mineflayer');
 const http = require('http');
 
 http.createServer((req, res) => {
-    res.write('ArcticGuard is active!');
+    res.write('FunGuard is active!');
     res.end();
 }).listen(10000);
 
