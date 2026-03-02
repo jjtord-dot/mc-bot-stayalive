@@ -29,7 +29,7 @@ function startBot() {
             }, 1000);
 
             bot.chat("FunDom 24/7 System Active."); 
-        }, 30000); 
+        }, 6000); 
     });
 
     bot.on('error', (err) => {
