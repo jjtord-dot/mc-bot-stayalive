@@ -1,9 +1,8 @@
 const mineflayer = require('mineflayer');
 const http = require('http');
 
-// Render Health Check para hindi mag-sleep ang bot
 http.createServer((req, res) => {
-    res.write('ArcticGuard is jumping and crouching!');
+    res.write('ArcticGuard is active!');
     res.end();
 }).listen(10000);
 
@@ -16,27 +15,30 @@ function startBot() {
     });
 
     bot.on('spawn', () => {
-        console.log("Naka-pasok na at magsisimulang gumalaw!");
+        console.log("Naka-pasok na si ArcticGuard!");
         
-        // Loop para sa galaw ng bot bawat 3 segundo
+        // Loop: Talon, Crouch, at Chat bawat 30 seconds
         setInterval(() => {
-            // Talon
             bot.setControlState('jump', true);
             setTimeout(() => bot.setControlState('jump', false), 500);
-
-            // Crouch
+            
             setTimeout(() => {
                 bot.setControlState('sneak', true);
                 setTimeout(() => bot.setControlState('sneak', false), 1000);
-            }, 1500);
-            
-        }, 3000);
+            }, 1000);
+
+            // Chat para sa anti-hibernation ng mcserverhost
+            bot.chat("ArcticEmpire 24/7 System Active."); 
+        }, 30000); 
     });
 
-    bot.on('error', (err) => console.log("Error: " + err.code));
+    bot.on('error', (err) => {
+        if (err.code === 'ECONNREFUSED') return; // Ignore if server is restarting
+        console.log("Error: " + err.code);
+    });
 
     bot.on('end', () => {
-        console.log("Disconnected... Reconnecting in 10 seconds.");
+        console.log("Disconnected... Reconnecting in 10s.");
         setTimeout(startBot, 10000);
     });
 }
