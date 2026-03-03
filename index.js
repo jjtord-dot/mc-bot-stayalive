@@ -40,7 +40,7 @@ function startBot() {
             // Chat para hindi mag-hibernate ang server
             bot.chat("FunDom 24/7 System Active. Checking connection..."); 
 
-        }, 20000); // Ginawa nating bawat 20 seconds ang galaw para mas kitang-kita mo
+        }, 35000); // Ginawa nating bawat 20 seconds ang galaw para mas kitang-kita mo
     });
 
     bot.on('error', (err) => console.log("Error: " + err.code));
