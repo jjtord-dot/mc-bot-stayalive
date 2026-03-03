@@ -34,7 +34,7 @@ function startBot() {
             // Isang beses lang ito lalabas bawat loop
             bot.chat("FunDom 24/7 System is active. No hibernation."); 
             
-        }, 60000); // 60000ms = 1 minute
+        }, 60000); // 60000ms = 5 minute
     });
 
     bot.on('error', (err) => {
