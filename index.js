@@ -1,45 +1,49 @@
 const mineflayer = require('mineflayer');
 const http = require('http');
 
-// Render Health Check para manatiling online ang bot
 http.createServer((req, res) => {
-    res.write('FunGuard is active!');
+    res.write('FunGuard is moving!');
     res.end();
 }).listen(10000);
 
 function startBot() {
     const bot = mineflayer.createBot({
-        host: 'fundom.playserver.pro', // Siguraduhing walang extra characters
-        port: 41059,                  // Ang iyong bagong port
+        host: 'fundom.playserver.pro',
+        port: 41059,
         username: 'FunGuard', 
-        version: '1.21.11'             // Ang version ng iyong server
+        version: '1.21.11'
     });
 
     bot.on('spawn', () => {
-        console.log("Naka-pasok na si FunGuard!");
+        console.log("Naka-pasok na si FunGuard at magsisimulang gumalaw!");
 
-        // Gagalaw at mag-cha-chat ang bot bawat 60 seconds (1 minute)
-        // Ginawa nating 60s para hindi magmukhang spam sa console
         setInterval(() => {
-            // 1. Galaw (Talon at Crouch)
+            // 1. TALON MUNA
             bot.setControlState('jump', true);
-            setTimeout(() => bot.setControlState('jump', false), 500);
             
+            // 2. BITAW SA TALON pagkatapos ng 500ms
             setTimeout(() => {
-                bot.setControlState('sneak', true);
-                setTimeout(() => bot.setControlState('sneak', false), 1000);
-            }, 1000);
+                bot.setControlState('jump', false);
+                
+                // 3. PAGKABABA, MAG-CROUCH NAMAN (sneak)
+                setTimeout(() => {
+                    bot.setControlState('sneak', true);
+                    
+                    // 4. TAYO ULIT pagkatapos ng 1 segundo
+                    setTimeout(() => {
+                        bot.setControlState('sneak', false);
+                    }, 1000);
+                }, 500); 
 
-            // 2. Isang Mensahe (Chat)
-            // Isang beses lang ito lalabas bawat loop
-            bot.chat("FunDom 24/7 System is active. No hibernation."); 
-            
-        }, 60000); // 60000ms = 5 minute
+            }, 500);
+
+            // Chat para hindi mag-hibernate ang server
+            bot.chat("FunDom 24/7 System Active. Checking connection..."); 
+
+        }, 20000); // Ginawa nating bawat 20 seconds ang galaw para mas kitang-kita mo
     });
 
-    bot.on('error', (err) => {
-        console.log("Error: " + err.code);
-    });
+    bot.on('error', (err) => console.log("Error: " + err.code));
 
     bot.on('end', () => {
         console.log("Disconnected... Reconnecting in 10s.");
